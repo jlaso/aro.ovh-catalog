@@ -1,0 +1,27 @@
+name: Aro.OVH catalog
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      AU_DEPLOYMENT: ${{ github.ref }}
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/checkout@v2
+
+      - name: Set up Python 3.7
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - run: pip install -r requirements.txt
+
+#      - name: Build & Deploy
+#
+#        run: |
+#          "rsync -avz --exclude-from="${GITHUB_WORKSPACE}/.rsyncignore" . $(server):/var/projects/aro.ovh"
