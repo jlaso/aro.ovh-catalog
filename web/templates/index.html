@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ustora Demo</title>
+    <title>Llaveros solidarios</title>
     
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Titillium+Web:400,200,300,700,600' rel='stylesheet' type='text/css'>
@@ -17,15 +17,15 @@
     <link href='http://fonts.googleapis.com/css?family=Raleway:400,100' rel='stylesheet' type='text/css'>
     
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
     
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/owl.carousel.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="/assets/css/responsive.css">
+    <link rel="stylesheet" href="/static/css/owl.carousel.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,6 +36,7 @@
   </head>
   <body>
    
+   {#
     <div class="header-area">
         <div class="container">
             <div class="row">
@@ -55,20 +56,16 @@
                     <div class="header-right">
                         <ul class="list-unstyled list-inline">
                             <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">USD </span><b class="caret"></b></a>
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">currency :</span><span class="value">EUR </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">USD</a></li>
-                                    <li><a href="#">INR</a></li>
-                                    <li><a href="#">GBP</a></li>
+                                    <li><a href="#">EUR</a></li>
                                 </ul>
                             </li>
 
                             <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">language :</span><span class="value">English </span><b class="caret"></b></a>
+                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">Idioma :</span><span class="value">Castellanno </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">English</a></li>
-                                    <li><a href="#">French</a></li>
-                                    <li><a href="#">German</a></li>
+                                    <li><a href="#">Castellano</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -77,13 +74,14 @@
             </div>
         </div>
     </div> <!-- End header area -->
-    
+    #}
+	
     <div class="site-branding-area">
         <div class="container">
             <div class="row">
                 <div class="col-sm-6">
                     <div class="logo">
-                        <h1><a href="./"><img src="/assets/img/logo.png"></a></h1>
+                        <h1><a href="./"><img src="/static/img/logo.png"></a></h1>
                     </div>
                 </div>
                 
@@ -109,26 +107,23 @@
                 </div> 
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Shop page</a></li>
-                        <li><a href="single-product.html">Single product</a></li>
-                        <li><a href="cart.html">Cart</a></li>
-                        <li><a href="checkout.html">Checkout</a></li>
-                        <li><a href="#">Category</a></li>
-                        <li><a href="#">Others</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li class="{% if not cat %}active{% endif %}"><a href="/">Catálogo</a></li>
+						{% for c in cats %}
+                        <li class="{% if c==cat %}active{% endif %}"><a href="/?cat={{ c }}">{{c}}</a></li>
+						{% endfor %}
                     </ul>
                 </div>  
             </div>
         </div>
     </div> <!-- End mainmenu area -->
     
+	{#
     <div class="slider-area">
         	<!-- Slider -->
 			<div class="block-slider block-slider4">
 				<ul class="" id="bxslider-home4">
 					<li>
-						<img src="/assets/img/h4-slide.png" alt="Slide">
+						<img src="/static/img/h4-slide.png" alt="Slide">
 						<div class="caption-group">
 							<h2 class="caption title">
 								iPhone <span class="primary">6 <strong>Plus</strong></span>
@@ -137,7 +132,7 @@
 							<a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
 						</div>
 					</li>
-					<li><img src="/assets/img/h4-slide2.png" alt="Slide">
+					<li><img src="/static/img/h4-slide2.png" alt="Slide">
 						<div class="caption-group">
 							<h2 class="caption title">
 								by one, get one <span class="primary">50% <strong>off</strong></span>
@@ -146,7 +141,7 @@
 							<a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
 						</div>
 					</li>
-					<li><img src="/assets/img/h4-slide3.png" alt="Slide">
+					<li><img src="/static/img/h4-slide3.png" alt="Slide">
 						<div class="caption-group">
 							<h2 class="caption title">
 								Apple <span class="primary">Store <strong>Ipod</strong></span>
@@ -155,7 +150,7 @@
 							<a class="caption button-radius" href="#"><span class="icon"></span>Shop now</a>
 						</div>
 					</li>
-					<li><img src="/assets/img/h4-slide4.png" alt="Slide">
+					<li><img src="/static/img/h4-slide4.png" alt="Slide">
 						<div class="caption-group">
 						  <h2 class="caption title">
 								Apple <span class="primary">Store <strong>Ipod</strong></span>
@@ -168,7 +163,9 @@
 			</div>
 			<!-- ./Slider -->
     </div> <!-- End slider area -->
-    
+    #}
+	
+	{#
     <div class="promo-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -200,33 +197,35 @@
             </div>
         </div>
     </div> <!-- End promo area -->
-    
+    #}
+	
     <div class="maincontent-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
                     <div class="latest-product">
-                        <h2 class="section-title">Latest Products</h2>
+                        <h2 class="section-title">{{cat or "Todos"}}</h2>
                         <div class="product-carousel">
+							{% for k in keyrings %}
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-1.jpg" alt="">
+                                    <img src="/static/db/{{k.cat}}/{{k.code}}.jpg" alt="">
                                     <div class="product-hover">
-                                        <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
-                                        <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
+                                        <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Añadir</a>
+                                        <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> Ver</a>
                                     </div>
                                 </div>
                                 
-                                <h2><a href="single-product.html">Samsung Galaxy s5- 2015</a></h2>
-                                
-                                <div class="product-carousel-price">
-                                    <ins>$700.00</ins> <del>$100.00</del>
-                                </div> 
+								<h5>MOD:<ins>{{k.code}}</ins></h5>
+                                <h2><a href="single-product.html">{{ k.name }}</a></h2>
+                                                     
                             </div>
+							{% endfor %}
+							{#
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-2.jpg" alt="">
+                                    <img src="/static/img/product-2.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                                         <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
@@ -240,7 +239,7 @@
                             </div>
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-3.jpg" alt="">
+                                    <img src="/static/img/product-3.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                                         <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
@@ -255,7 +254,7 @@
                             </div>
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-4.jpg" alt="">
+                                    <img src="/static/img/product-4.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                                         <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
@@ -270,7 +269,7 @@
                             </div>
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-5.jpg" alt="">
+                                    <img src="/static/img/product-5.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                                         <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
@@ -285,7 +284,7 @@
                             </div>
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/assets/img/product-6.jpg" alt="">
+                                    <img src="/static/img/product-6.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                                         <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> See details</a>
@@ -298,6 +297,7 @@
                                     <ins>$400.00</ins>
                                 </div>                            
                             </div>
+							#}
                         </div>
                     </div>
                 </div>
@@ -305,6 +305,7 @@
         </div>
     </div> <!-- End main content area -->
     
+	{#
     <div class="brands-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -312,21 +313,23 @@
                 <div class="col-md-12">
                     <div class="brand-wrapper">
                         <div class="brand-list">
-                            <img src="/assets/img/brand1.png" alt="">
-                            <img src="/assets/img/brand2.png" alt="">
-                            <img src="/assets/img/brand3.png" alt="">
-                            <img src="/assets/img/brand4.png" alt="">
-                            <img src="/assets/img/brand5.png" alt="">
-                            <img src="/assets/img/brand6.png" alt="">
-                            <img src="/assets/img/brand1.png" alt="">
-                            <img src="/assets/img/brand2.png" alt="">                            
+                            <img src="/static/img/brand1.png" alt="">
+                            <img src="/static/img/brand2.png" alt="">
+                            <img src="/static/img/brand3.png" alt="">
+                            <img src="/static/img/brand4.png" alt="">
+                            <img src="/static/img/brand5.png" alt="">
+                            <img src="/static/img/brand6.png" alt="">
+                            <img src="/static/img/brand1.png" alt="">
+                            <img src="/static/img/brand2.png" alt="">                            
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div> <!-- End brands area -->
-    
+    #}
+	
+	{#
     <div class="product-widget-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -336,7 +339,7 @@
                         <h2 class="product-wid-title">Top Sellers</h2>
                         <a href="" class="wid-view-more">View All</a>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Sony Smart TV - 2015</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -350,7 +353,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Apple new mac book 2015</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -364,7 +367,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Apple new i phone 6</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -384,7 +387,7 @@
                         <h2 class="product-wid-title">Recently Viewed</h2>
                         <a href="#" class="wid-view-more">View All</a>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Sony playstation microsoft</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -398,7 +401,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Sony Smart Air Condtion</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -412,7 +415,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-2.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Samsung gallaxy note 4</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -432,7 +435,7 @@
                         <h2 class="product-wid-title">Top New</h2>
                         <a href="#" class="wid-view-more">View All</a>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-3.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Apple new i phone 6</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -446,7 +449,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-4.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Samsung gallaxy note 4</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -460,7 +463,7 @@
                             </div>                            
                         </div>
                         <div class="single-wid-product">
-                            <a href="single-product.html"><img src="/assets/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
+                            <a href="single-product.html"><img src="/static/img/product-thumb-1.jpg" alt="" class="product-thumb"></a>
                             <h2><a href="single-product.html">Sony playstation microsoft</a></h2>
                             <div class="product-wid-rating">
                                 <i class="fa fa-star"></i>
@@ -478,7 +481,9 @@
             </div>
         </div>
     </div> <!-- End product widget area -->
-    
+    #}
+	
+	{#
     <div class="footer-top-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
@@ -537,7 +542,9 @@
             </div>
         </div>
     </div> <!-- End footer top area -->
-    
+    #}
+	
+	{#
     <div class="footer-bottom-area">
         <div class="container">
             <div class="row">
@@ -558,7 +565,8 @@
             </div>
         </div>
     </div> <!-- End footer bottom area -->
-   
+    #}
+	
     <!-- Latest jQuery form server -->
     <script src="https://code.jquery.com/jquery.min.js"></script>
     
@@ -566,17 +574,17 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     
     <!-- jQuery sticky menu -->
-    <script src="/assets/js/owl.carousel.min.js"></script>
-    <script src="/assets/js/jquery.sticky.js"></script>
+    <script src="/static/js/owl.carousel.min.js"></script>
+    <script src="/static/js/jquery.sticky.js"></script>
     
     <!-- jQuery easing -->
-    <script src="/assets/js/jquery.easing.1.3.min.js"></script>
+    <script src="/static/js/jquery.easing.1.3.min.js"></script>
     
     <!-- Main Script -->
-    <script src="/assets/js/main.js"></script>
+    <script src="/static/js/main.js"></script>
     
     <!-- Slider -->
-    <script type="text/javascript" src="/assets/js/bxslider.min.js"></script>
-	<script type="text/javascript" src="/assets/js/script.slider.js"></script>
+    <script type="text/javascript" src="/static/js/bxslider.min.js"></script>
+	<script type="text/javascript" src="/static/js/script.slider.js"></script>
   </body>
 </html>

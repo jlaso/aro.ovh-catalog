@@ -5,7 +5,7 @@ from flask import request
 from flask import render_template
 from flask_cors import CORS, cross_origin
 
-app = Flask(__name__, static_folder="static")
+app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 
@@ -16,7 +16,15 @@ def robots():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    with open("./db/categories.json") as c:
+        cats = json.loads(c.read())
+    cat = request.args.get("cat")
+    keyrings = []
+    with open(f"./db/keyrings.json") as k:
+        keyrings = json.loads(k.read())
+        if cat:
+            keyrings = [k for k in keyrings if k['cat'] == cat]
+    return render_template("index.html", cats=cats, cat=cat, keyrings=keyrings)
 
 
 if __name__ == "__main__":
