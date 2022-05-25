@@ -1,0 +1,49 @@
+
+   			
+    <div class="site-branding-area" style="margin-top:19px;">
+        <div class="container">
+            <div class="row">
+
+{#                <div class="col-sm-6">#}
+{#                    <div class="logo">#}
+{#                        <h1><a href="./"><img src="/static/img/logo.png"></a></h1>#}
+{#                    </div>#}
+{#                </div>#}
+                
+				{% block cart_top %}
+                <div class="col-sm-6">
+                    <div class="shopping-item">
+                        <a href="/cart">Carro - <span class="cart-amunt"></span>
+                            <i class="fa fa-shopping-cart"></i>
+                            <span class="product-count">{{ cart.items|length }}</span>
+                        </a>
+                    </div>
+                </div>
+				{% endblock %}
+            </div>
+        </div>
+    </div> <!-- End site branding area -->
+    
+    <div class="mainmenu-area">
+        <div class="container">
+            <div class="row">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div> 
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="{% if not cat %}active{% endif %}"><a href="/">Catálogo</a></li>
+						{% for c in cats %}
+                        <li class="{% if c==cat %}active{% endif %}"><a href="/?cat={{ c }}">{{c}}</a></li>
+						{% endfor %}
+                    </ul>
+                </div>  
+            </div>
+        </div>
+    </div> <!-- End mainmenu area -->
+
