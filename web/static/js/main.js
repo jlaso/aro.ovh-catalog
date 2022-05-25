@@ -83,13 +83,20 @@ jQuery(document).ready(function($){
     $('body').scrollspy({ 
         target: '.navbar-collapse',
         offset: 95
-    })      
+    });
+
+    $('.add-to-cart-link').click(function(){
+        console.log($(this));
+        const prod_id = $(this).data("id");
+        console.log("prod id is", prod_id);
+        $.post(`/add-to-cart/${prod_id}`, (data)=>{console.log(data)});
+    });
 });
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-10146041-21', 'auto');
-  ga('send', 'pageview');
+  // (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  // (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  // m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  // })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  //
+  // ga('create', 'UA-10146041-21', 'auto');
+  // ga('send', 'pageview');
