@@ -11,11 +11,12 @@ class Cart:
     def from_session(s):
         c = Cart()
         print(json.loads(s.get("cart", "[]")))
-        c.items = [Product.from_db(p) for p in json.loads(s.get("cart", "[]"))]
+        c.items = [Product.unserialize(p) for p in json.loads(s.get("cart", "[]"))]
+        print(c.items)
         return c
 
     def to_session(self, s):
-        s["cart"] = json.dumps(self.items)
+        s["cart"] = json.dumps([i.serialized() for i in self.items])
 
     def add_item(self, item: Product):
         self.items.append(item)

@@ -33,9 +33,12 @@ def new_cart():
 
 @app.route('/cart', methods=['POST', 'GET'])
 def cart():
-    c = Cart.from_session(session)
-    # return jsonify([i.serialized() for i in Cart().from_session(session).items])
-    return render_template("cart.html", cart=c)
+    cats = db_wrapper.get_categories()
+    if request.method == 'POST':
+        if request.form.get('new_cart','') == 'Borrar':
+            Cart().to_session(session)
+    c = Cart.from_session(session)      
+    return render_template("cart.html", cart=c, cats=cats, cat="cart")
 
 
 @app.route('/add-to-cart/<string:product_id>', methods=['POST', 'GET'])
@@ -45,8 +48,16 @@ def add_to_cart(product_id):
         return {"result": "KO"}
     c = Cart.from_session(session)
     c.add_item(product)
-    session['cart'] = c.serialized()
+    c.to_session(session)
     return {"result": "OK"}
+
+
+@app.route('/product/<string:product_id>', methods=['GET'])
+def product(product_id):
+    cats = db_wrapper.get_categories()
+    c = Cart.from_session(session)      
+    product = db_wrapper.get_product(product_id)
+    return render_template("single-product.html", product=product, cart=c, cats=cats, cat=product.cat)
 
 
 @app.route("/")

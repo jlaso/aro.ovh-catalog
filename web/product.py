@@ -3,10 +3,11 @@ import json
 
 class Product:
 
-    def __init__(self, product_id: str, cat: str, custom: str = ""):
-        self.product_id = product_id
+    def __init__(self, code: str, cat: str, custom: str = "", name: str = ""):
+        self.code = code
         self.cat = cat
         self.custom = custom
+        self.name = name
 
     @staticmethod
     def from_db(p: dict):
@@ -18,7 +19,16 @@ class Product:
 
     def serialized(self):
         return {
-            "code": self.product_id,
+            "code": self.code,
             "custom": self.custom,
-            "cat": self.cat
+            "cat": self.cat,
+            "name": self.name
         }
+
+    @staticmethod    
+    def unserialize(p: dict):
+        code = p.get('code','')
+        cat = p.get('cat','')
+        name = p.get('name','')
+        custom = p.get('custom','')
+        return Product(code, cat, custom, name)

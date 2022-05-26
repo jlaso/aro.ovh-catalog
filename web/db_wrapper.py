@@ -32,7 +32,7 @@ class DbWrapper:
     def get_product(self, code: str):
         for p in self.get_products():
             if p['code'] == code:
-                return Product.from_db(p)
+                return Product.unserialize(p)
 
     def get_products_by_cat(self, cat: str):
         return [p for p in self.get_products() if p['cat'] == cat]

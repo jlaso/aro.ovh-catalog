@@ -15,16 +15,16 @@
 							{% for k in keyrings %}
                             <div class="single-product">
                                 <div class="product-f-image">
-                                    <img src="/static/db/{{k.cat}}/{{k.code}}.jpg" alt="">
+                                    <img height=314 width=250 src="/static/db/{{k.cat}}/{{k.code}}.jpg" alt="">
                                     <div class="product-hover">
                                         <a href="#" class="add-to-cart-link" data-id="{{ k.code }}">
                                             <i class="fa fa-shopping-cart"></i> Añadir
                                         </a>
-                                        <a href="single-product.html" class="view-details-link"><i class="fa fa-link"></i> Ver</a>
+                                        <a href="/product/{{ k.code }}" class="view-details-link"><i class="fa fa-link"></i> Ver</a>
                                     </div>
                                 </div>
                                 
-								<h5>MOD:<ins>{{k.code}}</ins></h5>
+								<h5>MOD: <ins>{{k.code}}</ins></h5>
                                 <h2><a href="single-product.html">{{ k.name }}</a></h2>
                                                      
                             </div>
