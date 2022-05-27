@@ -28,42 +28,45 @@
                         </div>
                         
                         <div class="row">
+							
                             <div class="col-sm-6">
                                 <div class="product-images">
                                     <div class="product-main-img">
-                                        <img src="img/product-2.jpg" alt="">
+                                        <img src="/static/db/{{product.cat}}/{{product.code}}.jpg" alt="">
                                     </div>
-                                    
+                                    {#
                                     <div class="product-gallery">
                                         <img src="img/product-thumb-1.jpg" alt="">
                                         <img src="img/product-thumb-2.jpg" alt="">
                                         <img src="img/product-thumb-3.jpg" alt="">
                                     </div>
+									#}
                                 </div>
                             </div>
                             
                             <div class="col-sm-6">
                                 <div class="product-inner">
                                     <h2 class="product-name">{{ product.name }}</h2>
-                                    <div class="product-inner-price">
+                                    {#<div class="product-inner-price">
                                         <ins>$700.00</ins> <del>$100.00</del>
-                                    </div>    
+                                    </div>#}    
                                     
-                                    <form action="" class="cart">
+                                    <form action="/add-to-cart/{{ product.code }}" class="cart">
                                         <div class="quantity">
                                             <input type="number" size="4" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
                                         </div>
-                                        <button class="add_to_cart_button" type="submit">Add to cart</button>
+										<input type="hidden" name="redirect" value="/product/{{ product.code }}">
+                                        <button class="add-to-cart-link" type="submit">Añadir</button>
                                     </form>   
                                     
                                     <div class="product-inner-category">
-                                        <p>Category: <a href="">Summer</a>. Tags: <a href="">awesome</a>, <a href="">best</a>, <a href="">sale</a>, <a href="">shoes</a>. </p>
+                                        <p>Palabras: <a href="">Summer</a>. Tags: <a href="">awesome</a>, <a href="">best</a>, <a href="">sale</a>, <a href="">shoes</a>. </p>
                                     </div> 
-                                    
+                                    {#
                                     <div role="tabpanel">
                                         <ul class="product-tab" role="tablist">
-                                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Description</a></li>
-                                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Reviews</a></li>
+                                            <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Descripción</a></li>
+                                            <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Comentarios</a></li>
                                         </ul>
                                         <div class="tab-content">
                                             <div role="tabpanel" class="tab-pane fade in active" id="home">
@@ -94,7 +97,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+                                    #}
                                 </div>
                             </div>
                         </div>

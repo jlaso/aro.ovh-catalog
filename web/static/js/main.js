@@ -89,7 +89,12 @@ jQuery(document).ready(function($){
         console.log($(this));
         const prod_id = $(this).data("id");
         console.log("prod id is", prod_id);
-        $.post(`/add-to-cart/${prod_id}`, (data)=>{console.log(data)});
+        $.post(`/add-to-cart/${prod_id}`, (data)=>{
+			console.log(data);
+			if (data.result) {
+				$("#cart-count").html(data.count)
+			}
+		});
     });
 });
 

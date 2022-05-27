@@ -691,7 +691,7 @@ width: 10px;
 .single-product-area .zigzag-bottom {background-color: #f4f4f4}
 
 .single-product-area {
-  padding: 80px 0 130px;
+  padding: 40px 0 130px;
 }
 
 
@@ -905,6 +905,9 @@ table.shop_table th, table.shop_table td {
     padding: 15px;
     text-align: center;
 }
+table.shop_table .product-name {
+	text-align: left !important;
+}
 table.shop_table th {
     background: none repeat scroll 0 0 #f4f4f4;
     font-size: 15px;
@@ -912,7 +915,7 @@ table.shop_table th {
 }
 td.product-thumbnail img {
     height: auto;
-    width: 70px;
+    width: 100px;
 }
 td.product-name {
     font-size: 18px;

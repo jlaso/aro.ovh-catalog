@@ -49,9 +49,9 @@
                                             <th class="product-remove">&nbsp;</th>
                                             <th class="product-thumbnail">&nbsp;</th>
                                             <th class="product-name">Producto</th>
-                                            <th class="product-price">Precio</th>
+                                            {#<th class="product-price">Precio</th>#}
                                             <th class="product-quantity">Cantidad</th>
-                                            <th class="product-subtotal">Total</th>
+                                            {#<th class="product-subtotal">Total</th>#}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -62,16 +62,18 @@
                                             </td>
                                             <td class="product-thumbnail">
                                                 <a href="/">
-													<img width="145" height="145" alt="{{ p.code }}" 
+													<img width="200" height="200" alt="{{ p.code }}" 
 													class="shop_thumbnail" src="/static/db/{{ p.cat }}/{{ p.code }}.jpg">
 												</a>
                                             </td>
                                             <td class="product-name">
                                                 <a href="/">{{ p.name }}</a> 
                                             </td>
+											{#
                                             <td class="product-price">
                                                 <span class="amount">15.00</span> 
                                             </td>
+											#}
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
                                                     <input type="button" class="minus" value="-">
@@ -80,9 +82,11 @@
                                                     <input type="button" class="plus" value="+">
                                                 </div>
                                             </td>
+											{#
                                             <td class="product-subtotal">
                                                 <span class="amount">15.00</span> 
                                             </td>
+											#}
                                         </tr>
 										{% endfor %}
                                         <tr>
