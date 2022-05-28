@@ -1,0 +1,121 @@
+{% extends '_base.html' %}
+
+{% block cart_top %}{% endblock %}
+
+{% block body %}
+   
+    <div class="product-big-title-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="product-bit-title text-center">
+                        <h2>Carro</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- End Page title area -->
+    
+    
+    <div class="single-product-area">
+        <div class="zigzag-bottom"></div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-8">
+                    <div class="product-content-right">
+                        <div class="woocommerce">
+                            <form method="post" action="#">
+                                <table cellspacing="0" class="shop_table cart">
+                                    <thead>
+                                        <tr>
+                                            <th class="product-remove">&nbsp;</th>
+                                            <th class="product-thumbnail">&nbsp;</th>
+                                            <th class="product-name">Producto</th>
+                                            {#<th class="product-price">Precio</th>#}
+                                            <th class="product-quantity">Cantidad</th>
+                                            {#<th class="product-subtotal">Total</th>#}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										{% for p in cart.items %}
+                                        <tr class="cart_item">
+                                            <td class="product-remove">
+                                                <a title="Quitar producto" class="remove" href="#">×</a> 
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <a href="/">
+													<img width="200" height="200" alt="{{ p.code }}" 
+													class="shop_thumbnail" src="/static/db/{{ p.cat }}/{{ p.code }}.jpg">
+												</a>
+                                            </td>
+                                            <td class="product-name">
+                                                <a href="/">{{ p.name }}</a> 
+                                            </td>
+											{#
+                                            <td class="product-price">
+                                                <span class="amount">15.00</span> 
+                                            </td>
+											#}
+                                            <td class="product-quantity">
+                                                <div class="quantity buttons_added">
+                                                    <input type="button" class="minus" value="-">
+                                                    <input type="number" size="4" class="input-text qty text" 
+															title="Qty" value="1" min="0" step="1">
+                                                    <input type="button" class="plus" value="+">
+                                                </div>
+                                            </td>
+											{#
+                                            <td class="product-subtotal">
+                                                <span class="amount">15.00</span> 
+                                            </td>
+											#}
+                                        </tr>
+										{% endfor %}
+                                        <tr>
+                                            <td class="actions" colspan="6">
+                                                <input type="submit" value="Borrar" name="new_cart" class="button"> 
+                                                <input type="submit" value="Actualizar" name="update_cart" class="button">
+                                                <input type="submit" value="Pedir" name="proceed" class="checkout-button button alt wc-forward">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </form>
+
+                            <div class="cart-collaterals">
+
+
+                            <div class="cart_totals ">
+                                <h2>Totales</h2>
+
+                                <table cellspacing="0">
+                                    <tbody>
+                                        <tr class="cart-subtotal">
+                                            <th>Subtotal</th>
+                                            <td class="text-right"><span class="amount">15.00</span></td>
+                                        </tr>
+
+                                        <tr class="shipping">
+                                            <th>Envío</th>
+                                            <td class="text-right">Recogida local</td>
+                                        </tr>
+
+                                        <tr class="order-total">
+                                            <th>Total</th>
+                                            <td class="text-right"><strong><span class="amount">15.00</span></strong> </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            </div>
+                        </div>                        
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock body %}
