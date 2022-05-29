@@ -9,7 +9,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
 
-    SECRET_KEY = "jkas90d3jw2e9qwndjklaq09wdasjlnkdasidadASKDASD321"
+    SECRET_KEY = os.environ.get("SECRET_KEY")
 
     MAIL_SERVER = os.environ.get("MAIL_SERVER")
     MAIL_PORT = os.environ.get("MAIL_PORT")

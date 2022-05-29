@@ -16,23 +16,8 @@ from config import Config
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-# SESSION_TYPE = 'filesystem'
-# Session(app)
 app.config.from_object(Config)
-#app.secret_key = "jkas90d3jw2e9qwndjklaq09wdasjlnkdasidadASKDASD321"
-
 db_wrapper = DbWrapper()
-
-#app.config['MAIL_SERVER'] = 'email-smtp.eu-west-3.amazonaws.com'
-#app.config['MAIL_PORT'] = 25
-#app.config['MAIL_USERNAME'] = 'AKIA2ZANDEU6ONU4N6UU'
-#app.config['MAIL_PASSWORD'] = 'BJ6H1y3Dcmn75SjIVL+f2c9nFtWAVWDu7QolwVuJj8ns'
-#app.config['MAIL_USE_TLS'] = True
-#app.config['MAIL_USE_SSL'] = False
-
-print(app.config)
-
 mail = Mail(app)
 
 
@@ -50,6 +35,15 @@ def new_cart():
 @app.route('/order', methods=['POST', 'GET'])
 def order():
     c = Cart().from_session(session)
+    html = render_template('email/reminder.html',
+                           name="Desmond",
+                           reminder_number=len(c.items),
+                           items=c.items,
+                           author_name="Test Machine", author_title="Tester",
+                           APP_NAME="WhatIDoNow",
+                           APP_URL="https://www.whatidonow.com/",
+                           unsubscribe_url="https://www.whatidonow.com/unsubsribe/xxx",
+                           TITLE="Reminder Email")
     msg = Message('Hello there', sender='catalog@muw.es', recipients=['wld1373@gmail.com'])
     msg.body = "This is the email body"
     mail.send(msg)
