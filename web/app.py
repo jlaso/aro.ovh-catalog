@@ -1,18 +1,14 @@
-import logging
-import json
 from flask import Flask
 from flask import redirect
-from flask import jsonify
-from flask import session
-from flask import request
 from flask import render_template
-from flask_cors import CORS
-from flask_cors import cross_origin
+from flask import request
+from flask import session
 from flask_mail import Mail
 from flask_mail import Message
-from db_wrapper import DbWrapper
+
 from cart import Cart
 from config import Config
+from db_wrapper import DbWrapper
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -35,17 +31,18 @@ def new_cart():
 @app.route('/order', methods=['POST', 'GET'])
 def order():
     c = Cart().from_session(session)
-    html = render_template('email/reminder.html',
-                           name="Desmond",
-                           reminder_number=len(c.items),
-                           items=c.items,
-                           author_name="Test Machine", author_title="Tester",
-                           APP_NAME="WhatIDoNow",
-                           APP_URL="https://www.whatidonow.com/",
-                           unsubscribe_url="https://www.whatidonow.com/unsubsribe/xxx",
-                           TITLE="Reminder Email")
     msg = Message('Hello there', sender='catalog@muw.es', recipients=['wld1373@gmail.com'])
-    msg.body = "This is the email body"
+    msg.body = ""
+    msg.html = render_template('emails/order.html',
+                               name="Desmond",
+                               reminder_number=len(c.items),
+                               items=c.items,
+                               author_name="Test Machine",
+                               author_title="Tester",
+                               APP_NAME="WhatIDoNow",
+                               APP_URL="https://www.whatidonow.com/",
+                               unsubscribe_url="https://www.whatidonow.com/unsubsribe/xxx",
+                               TITLE="Reminder Email")
     mail.send(msg)
     return render_template("thanks.html", cart=c)
 
@@ -58,7 +55,7 @@ def cart():
             Cart().to_session(session)
         if request.form.get('proceed', '') == 'Pedir':
             return redirect('/order')
-    c = Cart.from_session(session)      
+    c = Cart.from_session(session)
     return render_template("cart.html", cart=c, cats=cats, cat="cart")
 
 
@@ -76,7 +73,7 @@ def add_to_cart(product_id):
 @app.route('/product/<string:product_id>', methods=['GET'])
 def product(product_id):
     cats = db_wrapper.get_categories()
-    c = Cart.from_session(session)      
+    c = Cart.from_session(session)
     _product = db_wrapper.get_product(product_id)
     return render_template("single-product.html", product=_product, cart=c, cats=cats, cat=product.cat)
 
@@ -90,5 +87,5 @@ def index():
     return render_template("index.html", cats=cats, cat=cat, keyrings=products, cart=c)
 
 
-if __name__ == "__main__":       
+if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
