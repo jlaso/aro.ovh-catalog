@@ -17,3 +17,25 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     MAIL_USE_TLS = os.environ.get("MAIL_USE_TLS") in ('True', '1', 'T', 'Y')
     MAIL_USE_SSL = os.environ.get("MAIL_USE_SSL") in ('True', '1', 'T', 'Y')
+
+    SQLALCHEMY_DATABASE_URI = ""
+
+
+class DevConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.db"
+
+
+class ProdConfig(Config):
+    SQLALCHEMY_DATABASE_URI = ""
+
+
+ENV = os.environ.get("ENV", "dev").lower()
+
+if ENV == "dev":
+    TheConfig = DevConfig
+elif ENV == "prod":
+    TheConfig = ProdConfig
+else:
+    ENV = "dev"
+    TheConfig = DevConfig

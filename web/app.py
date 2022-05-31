@@ -5,16 +5,19 @@ from flask import request
 from flask import session
 from flask_mail import Mail
 from flask_mail import Message
+from flask_sqlalchemy import SQLAlchemy
 
 from cart import Cart
-from config import Config
+from config import ENV
+from config import TheConfig
 from db_wrapper import DbWrapper
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-app.config.from_object(Config)
+app.config.from_object(TheConfig)
 db_wrapper = DbWrapper()
 mail = Mail(app)
+db = SQLAlchemy(app)
 
 
 @app.route("/robots.txt")
