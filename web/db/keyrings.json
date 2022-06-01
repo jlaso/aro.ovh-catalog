@@ -123,6 +123,16 @@
 		"name": "Llavero personalizado",
 		"custom": "Nombre"
 	},{
+		"code": "739",
+		"cat": "led3d",
+		"words": "oso,osito,luna",
+		"name": "Osito durmiendo en la luna"
+	},{
+		"code": "745",
+		"cat": "led3d",
+		"words": "groot",
+		"name": "Baby Groot"
+	},{
 		"code": "791",
 		"cat": "led3d",
 		"words": "corazon",

@@ -11,13 +11,14 @@ from cart import Cart
 from config import ENV
 from config import TheConfig
 from db_wrapper import DbWrapper
+from models import db
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config.from_object(TheConfig)
 db_wrapper = DbWrapper()
 mail = Mail(app)
-db = SQLAlchemy(app)
+db.init_app(app)
 
 
 @app.route("/robots.txt")
@@ -88,6 +89,16 @@ def index():
     cat = request.args.get("cat")
     products = db_wrapper.get_products_by_cat(cat) if cat else db_wrapper.get_products()
     return render_template("index.html", cats=cats, cat=cat, keyrings=products, cart=c)
+
+
+def __create_db():
+    app.app_context().push()
+    db.init_app(app)
+    db.create_all()
+    from models import Order
+    from datetime import datetime
+    db.session.add(Order(id=1, name="uno", date=datetime.now(), email="uno@gmail.com"))
+    db.session.commit()
 
 
 if __name__ == "__main__":
