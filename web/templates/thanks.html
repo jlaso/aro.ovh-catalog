@@ -9,18 +9,20 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-bit-title text-center">
-                        <h2>Carro</h2>
+                        <h2>Gracias</h2>
                     </div>
                 </div>
             </div>
         </div>
-    </div> <!-- End Page title area -->
+    </div>
     
     
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
         <div class="container">
             <div class="row">
+
+                <h3>Resumen del pedido enviado</h3>
 
                 <div class="col-md-8">
                     <div class="product-content-right">
@@ -32,9 +34,7 @@
                                             <th class="product-remove">&nbsp;</th>
                                             <th class="product-thumbnail">&nbsp;</th>
                                             <th class="product-name">Producto</th>
-                                            {#<th class="product-price">Precio</th>#}
                                             <th class="product-quantity">Cantidad</th>
-                                            {#<th class="product-subtotal">Total</th>#}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -52,11 +52,6 @@
                                             <td class="product-name">
                                                 <a href="/">{{ p.name }}</a> 
                                             </td>
-											{#
-                                            <td class="product-price">
-                                                <span class="amount">15.00</span> 
-                                            </td>
-											#}
                                             <td class="product-quantity">
                                                 <div class="quantity buttons_added">
                                                     <input type="button" class="minus" value="-">
@@ -65,20 +60,9 @@
                                                     <input type="button" class="plus" value="+">
                                                 </div>
                                             </td>
-											{#
-                                            <td class="product-subtotal">
-                                                <span class="amount">15.00</span> 
-                                            </td>
-											#}
                                         </tr>
 										{% endfor %}
-                                        <tr>
-                                            <td class="actions" colspan="6">
-                                                <input type="submit" value="Borrar" name="new_cart" class="button"> 
-                                                <input type="submit" value="Actualizar" name="update_cart" class="button">
-                                                <input type="submit" value="Pedir" name="proceed" class="checkout-button button alt wc-forward">
-                                            </td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </form>

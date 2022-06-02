@@ -3,13 +3,14 @@ jQuery(document).ready(function($){
     // jQuery sticky Menu
     
 	$(".mainmenu-area").sticky({topSpacing:0});
-    
+
     
     $('.product-carousel').owlCarousel({
         loop:true,
         nav:true,
         margin:20,
         responsiveClass:true,
+        startPosition: owlIndex,
         responsive:{
             0:{
                 items:1,

@@ -10,9 +10,9 @@ class Cart:
     @staticmethod
     def from_session(s):
         c = Cart()
-        print(json.loads(s.get("cart", "[]")))
+        # print(json.loads(s.get("cart", "[]")))
         c.items = [Product.unserialize(p) for p in json.loads(s.get("cart", "[]"))]
-        print(c.items)
+        # print(c.items)
         return c
 
     def to_session(self, s):

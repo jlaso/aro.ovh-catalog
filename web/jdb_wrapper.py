@@ -5,7 +5,7 @@ from product import Product
 MAX_CACHE_TIME_SEC = 3600
 
 
-class DbWrapper:
+class JdbWrapper:
 
     def __init__(self):
         self.products = None

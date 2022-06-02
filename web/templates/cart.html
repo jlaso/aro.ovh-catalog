@@ -67,7 +67,10 @@
 												</a>
                                             </td>
                                             <td class="product-name">
-                                                <a href="/">{{ p.name }}</a> 
+                                                <a href="/?product={{ p.code }}">{{ p.name }}</a>
+                                                <br>
+                                                <input type="text" name="custom[{{ loop.index0 }}]"
+                                                       value="{{ p.custom }}" placeholder="Personalizado?">
                                             </td>
 											{#
                                             <td class="product-price">

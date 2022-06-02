@@ -11,20 +11,11 @@
 <p style="{{ p_style }} color: #848484;">---</p>
 
 {% for _item in items %}
-{% if _item.type == 'now' %}
 <p style="{{ p_style }}">
-  <span style="color: #848484; font-size: 11px;">[{{ loop.index }}]</span> Update expected on {{ _item.date }} <span style="color: #848484; font-size: 11px;">{{ _item.ago }}</span> <br />
-  <span style="color: #2E2E2E; font-size: 13px;">Project: <a href="{{ _item.url }}">{{ _item.name }}</a></span><br />
-  <span style="color: #2E2E2E; font-size: 13px;">Update frequency: {{ _item.frequency }} day(s)</span>
+  <span style="color: #848484; font-size: 11px;">[{{ loop.index }}]</span> <br />
+  <span style="color: #2E2E2E; font-size: 13px;">Producto: <a href="{{ _item.code }}">{{ _item.name }}</a></span><br />
+  <span style="color: #2E2E2E; font-size: 13px;">Personalización: {{ _item.custom }}</span>
 </p>
-{% elif _item.type == 'challenge' %}
-<p style="{{ p_style }}">
-  <span style="color: #848484; font-size: 11px;">[{{ loop.index }}]</span> Update expected on {{ _item.date }} <span style="color: #848484; font-size: 11px;">{{ _item.ago }}</span><br />
-  <span style="color: #2E2E2E; font-size: 13px;">Challenge: <a href="{{ _item.url }}">{{ _item.name }}</a></span>
-</p>
-{% else %}
-[NA]
-{% endif %}
 {% endfor %}
 
 <p style="{{ p_style }} color: #848484;">---</p>
@@ -44,7 +35,5 @@
 {% endblock %}
 
 {% block footer %}
-
-<a href="{{ unsubscribe_url }}" style="text-decoration: none; color: #999999;">Unsubscribe reminder.</a>
 
 {% endblock %}

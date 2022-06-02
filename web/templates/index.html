@@ -2,7 +2,11 @@
 
 
 {% block body %}
-   				
+
+    <script>
+        let owlIndex=0;
+        {% for k in products %}{% if product_code == k.code %}owlIndex={{ loop.index0 }}{% endif %}{% endfor %}
+    </script>
 	
     <div class="maincontent-area">
         <div class="zigzag-bottom"></div>
@@ -12,7 +16,7 @@
                     <div class="latest-product">
                         <h2 class="section-title">{{cat or "Todos"}}</h2>
                         <div class="product-carousel">
-							{% for k in keyrings %}
+							{% for k in products %}
                             <div class="single-product">
                                 <div class="product-f-image">
                                     <img height=314 width=250 src="/static/db/{{k.cat}}/{{k.code}}.jpg" alt="">

@@ -20,6 +20,8 @@ class Config(object):
 
     SQLALCHEMY_DATABASE_URI = ""
 
+    DEST_EMAIL_ORDERS = os.environ.get("DEST_EMAIL_ORDERS")
+
 
 class DevConfig(Config):
     DEBUG = True

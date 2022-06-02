@@ -10,13 +10,13 @@ from flask_sqlalchemy import SQLAlchemy
 from cart import Cart
 from config import ENV
 from config import TheConfig
-from db_wrapper import DbWrapper
+from jdb_wrapper import JdbWrapper
 from models import db
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config.from_object(TheConfig)
-db_wrapper = DbWrapper()
+json_wrapper = JdbWrapper()
 mail = Mail(app)
 db.init_app(app)
 
@@ -35,38 +35,43 @@ def new_cart():
 @app.route('/order', methods=['POST', 'GET'])
 def order():
     c = Cart().from_session(session)
-    msg = Message('Hello there', sender='catalog@muw.es', recipients=['wld1373@gmail.com'])
-    msg.body = ""
-    msg.html = render_template('emails/order.html',
-                               name="Desmond",
-                               reminder_number=len(c.items),
-                               items=c.items,
-                               author_name="Test Machine",
-                               author_title="Tester",
-                               APP_NAME="WhatIDoNow",
-                               APP_URL="https://www.whatidonow.com/",
-                               unsubscribe_url="https://www.whatidonow.com/unsubsribe/xxx",
-                               TITLE="Reminder Email")
-    mail.send(msg)
-    return render_template("thanks.html", cart=c)
+    cats = json_wrapper.get_categories()
+    if request.method == "POST":
+        msg = Message('Nuevo pedido desde catalog.muw.es', sender='catalog@muw.es',
+                      recipients=[TheConfig.DEST_EMAIL_ORDERS])
+        msg.body = ""
+        msg.html = render_template('emails/order.html',
+                                   name=TheConfig.DEST_EMAIL_ORDERS,
+                                   reminder_number=len(c.items),
+                                   items=c.items,
+                                   author_name="Automático",
+                                   author_title="catalog@muw.es",
+                                   APP_NAME="CATALOG.MUW.ES",
+                                   APP_URL="https://catalog.muw.es/",
+                                   TITLE="Reminder Email")
+        mail.send(msg)
+    return render_template("thanks.html", **get_common_vars(cat="thanks"))
 
 
 @app.route('/cart', methods=['POST', 'GET'])
 def cart():
-    cats = db_wrapper.get_categories()
     if request.method == 'POST':
-        if request.form.get('new_cart', '') == 'Borrar':
+        if request.form.get('new_cart', ''):
             Cart().to_session(session)
-        if request.form.get('proceed', '') == 'Pedir':
+        elif request.form.get('proceed', ''):
             return redirect('/order')
-    c = Cart.from_session(session)
-    return render_template("cart.html", cart=c, cats=cats, cat="cart")
+        elif request.form.get('update_cart', ''):
+            c = Cart.from_session(session)
+            for i, item in enumerate(c.items):
+                item.custom = request.form.get(f"custom[{i}]")
+            c.to_session(session)
+    return render_template("cart.html", **get_common_vars(cat="cart"))
 
 
 @app.route('/add-to-cart/<string:product_id>', methods=['POST', 'GET'])
 def add_to_cart(product_id):
     _redirect = request.args.get('redirect')
-    _product = db_wrapper.get_product(product_id)
+    _product = json_wrapper.get_product(product_id)
     c = Cart.from_session(session)
     if product:
         c.add_item(_product)
@@ -76,19 +81,28 @@ def add_to_cart(product_id):
 
 @app.route('/product/<string:product_id>', methods=['GET'])
 def product(product_id):
-    cats = db_wrapper.get_categories()
-    c = Cart.from_session(session)
-    _product = db_wrapper.get_product(product_id)
-    return render_template("single-product.html", product=_product, cart=c, cats=cats, cat=product.cat)
+    _product = json_wrapper.get_product(product_id)
+    return render_template("single-product.html", product=_product,
+                           **get_common_vars(cat=_product.cat))
 
 
 @app.route("/")
 def index():
-    c = Cart.from_session(session)
-    cats = db_wrapper.get_categories()
-    cat = request.args.get("cat")
-    products = db_wrapper.get_products_by_cat(cat) if cat else db_wrapper.get_products()
-    return render_template("index.html", cats=cats, cat=cat, keyrings=products, cart=c)
+    return render_template("index.html", **get_common_vars(incl_products=True))
+
+
+def get_common_vars(incl_products=False, cat=None):
+    if cat is None:
+        cat = request.args.get("cat")
+    result = {
+        "cart": Cart.from_session(session),
+        "cats": json_wrapper.get_categories(),
+        "cat": cat,
+        "product_code": request.args.get("product"),
+    }
+    if incl_products:
+        result["products"] = json_wrapper.get_products_by_cat(cat) if cat else json_wrapper.get_products()
+    return result
 
 
 def __create_db():
@@ -102,4 +116,4 @@ def __create_db():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5080)

@@ -1,6 +1,3 @@
-import json
-
-
 class Product:
 
     def __init__(self, code: str, cat: str, custom: str = "", name: str = ""):
@@ -25,10 +22,10 @@ class Product:
             "name": self.name
         }
 
-    @staticmethod    
+    @staticmethod
     def unserialize(p: dict):
-        code = p.get('code','')
-        cat = p.get('cat','')
-        name = p.get('name','')
-        custom = p.get('custom','')
+        code = p.get('code', '')
+        cat = p.get('cat', '')
+        name = p.get('name', '')
+        custom = p.get('custom', '')
         return Product(code, cat, custom, name)
