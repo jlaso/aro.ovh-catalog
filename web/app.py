@@ -1,6 +1,6 @@
-from functools import wraps
-from flask import g
-from flask import url_for
+# from functools import wraps
+# from flask import g
+# from flask import url_for
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -15,6 +15,7 @@ from config import ENV
 from config import TheConfig
 from jdb_wrapper import json_wrapper
 from models import db
+from decorators import common_vars_injector
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -23,34 +24,36 @@ mail = Mail(app)
 db.init_app(app)
 
 
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if g.user is None:
-            return redirect(url_for('login', next=request.url))
-        return f(*args, **kwargs)
-    return decorated_function
+# def login_required(f):
+#     @wraps(f)
+#     def decorated_function(*args, **kwargs):
+#         if g.user is None:
+#             return redirect(url_for('login', next=request.url))
+#         return f(*args, **kwargs)
+#     return decorated_function
 
-
-def common_vars_injector(incl_products=False):
-    def decorator(f):
-        @wraps(f)
-        def wrapper(*args, **kwargs):
-            _cart = Cart.from_session(session)
-            if _cart.how_old() > 3600:
-                return redirect("/cart?is_old")
-            kwargs = {
-                "cat": request.args.get("cat"),
-                "cart": _cart,
-                "cats": json_wrapper.get_categories(),
-                "product_code": request.args.get("product"),
-            }
-            if incl_products:
-                kwargs["products"] = json_wrapper.get_products_by_cat(kwargs["cat"]) \
-                    if kwargs["cat"] else json_wrapper.get_products()
-            return f(*args, **kwargs)
-        return wrapper
-    return decorator
+#
+# def common_vars_injector(incl_products=False):
+#     def decorator(f):
+#         @wraps(f)
+#         def wrapper(*args, **kwargs):
+#             _cart = Cart.from_session(session)
+#             # for avoiding infinite redirects
+#             if not request.path.startswith('/cart?is_old') \
+#                     and _cart.how_old() > 3600:
+#                 return redirect("/cart?is_old")
+#             kwargs = {
+#                 "cat": request.args.get("cat"),
+#                 "cart": _cart,
+#                 "cats": json_wrapper.get_categories(),
+#                 "product_code": request.args.get("product"),
+#             }
+#             if incl_products:
+#                 kwargs["products"] = json_wrapper.get_products_by_cat(kwargs["cat"]) \
+#                     if kwargs["cat"] else json_wrapper.get_products()
+#             return f(*args, **kwargs)
+#         return wrapper
+#     return decorator
 
 
 @app.route("/robots.txt")
@@ -68,6 +71,7 @@ def new_cart():
 @common_vars_injector()
 def order(cart, **kwargs):
     if request.method == "POST":
+        print("** ORDERING **")
         msg = Message('Nuevo pedido desde catalog.muw.es', sender='catalog@muw.es',
                       recipients=[TheConfig.DEST_EMAIL_ORDERS])
         msg.body = ""
@@ -89,10 +93,12 @@ def order(cart, **kwargs):
 @common_vars_injector()
 def cart(**kwargs):
     if request.method == 'POST':
+        print(request.form)
         if request.form.get('new_cart'):
             Cart().to_session(session)
         elif request.form.get('proceed'):
-            return redirect('/order')
+            print("-- ordering --")
+            return redirect('/order', code=307)
         elif request.form.get('update_cart'):
             c = kwargs["cart"]
             for i, item in enumerate(c.items):
@@ -127,20 +133,6 @@ def product(product_id, **kwargs):
 def index(**kwargs):
     return render_template("index.html", **kwargs)
 
-# def get_common_vars(incl_products=False, cat=None):
-#     if cat is None:
-#         cat = request.args.get("cat")
-#     result = {
-#         "cart": Cart.from_session(session),
-#         "cats": json_wrapper.get_categories(),
-#         "cat": cat,
-#         "product_code": request.args.get("product"),
-#     }
-#     if incl_products:
-#         result["products"] = json_wrapper.get_products_by_cat(cat) if cat else json_wrapper.get_products()
-#     return result
-#
-
 
 def __create_db():
     app.app_context().push()
@@ -153,4 +145,4 @@ def __create_db():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5080)
+    app.run(host="0.0.0.0", port=TheConfig.PORT)

@@ -22,14 +22,18 @@ class Config(object):
 
     DEST_EMAIL_ORDERS = os.environ.get("DEST_EMAIL_ORDERS")
 
+    PORT = int(os.environ.get("PORT", "5000"))
+
 
 class DevConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/test.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
 class ProdConfig(Config):
     SQLALCHEMY_DATABASE_URI = ""
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 ENV = os.environ.get("ENV", "dev").lower()

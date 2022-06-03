@@ -4,6 +4,7 @@ jQuery(document).ready(function($){
     
 	$(".mainmenu-area").sticky({topSpacing:0});
 
+    let owlIndex = window.owlIndex | 0;
     
     $('.product-carousel').owlCarousel({
         loop:true,
