@@ -1,3 +1,6 @@
+from functools import wraps
+from flask import g
+from flask import url_for
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -10,15 +13,44 @@ from flask_sqlalchemy import SQLAlchemy
 from cart import Cart
 from config import ENV
 from config import TheConfig
-from jdb_wrapper import JdbWrapper
+from jdb_wrapper import json_wrapper
 from models import db
 
 app = Flask(__name__, static_folder="./static")
 # cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 app.config.from_object(TheConfig)
-json_wrapper = JdbWrapper()
 mail = Mail(app)
 db.init_app(app)
+
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if g.user is None:
+            return redirect(url_for('login', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def common_vars_injector(incl_products=False):
+    def decorator(f):
+        @wraps(f)
+        def wrapper(*args, **kwargs):
+            _cart = Cart.from_session(session)
+            if _cart.how_old() > 3600:
+                return redirect("/cart?is_old")
+            kwargs = {
+                "cat": request.args.get("cat"),
+                "cart": _cart,
+                "cats": json_wrapper.get_categories(),
+                "product_code": request.args.get("product"),
+            }
+            if incl_products:
+                kwargs["products"] = json_wrapper.get_products_by_cat(kwargs["cat"]) \
+                    if kwargs["cat"] else json_wrapper.get_products()
+            return f(*args, **kwargs)
+        return wrapper
+    return decorator
 
 
 @app.route("/robots.txt")
@@ -33,39 +65,42 @@ def new_cart():
 
 
 @app.route('/order', methods=['POST', 'GET'])
-def order():
-    c = Cart().from_session(session)
-    cats = json_wrapper.get_categories()
+@common_vars_injector()
+def order(cart, **kwargs):
     if request.method == "POST":
         msg = Message('Nuevo pedido desde catalog.muw.es', sender='catalog@muw.es',
                       recipients=[TheConfig.DEST_EMAIL_ORDERS])
         msg.body = ""
         msg.html = render_template('emails/order.html',
                                    name=TheConfig.DEST_EMAIL_ORDERS,
-                                   reminder_number=len(c.items),
-                                   items=c.items,
+                                   reminder_number=len(cart.items),
+                                   items=cart.items,
                                    author_name="Automático",
                                    author_title="catalog@muw.es",
                                    APP_NAME="CATALOG.MUW.ES",
                                    APP_URL="https://catalog.muw.es/",
                                    TITLE="Reminder Email")
         mail.send(msg)
-    return render_template("thanks.html", **get_common_vars(cat="thanks"))
+    kwargs["cat"] = "thanks"
+    return render_template("thanks.html", cart=cart, **kwargs)
 
 
 @app.route('/cart', methods=['POST', 'GET'])
-def cart():
+@common_vars_injector()
+def cart(**kwargs):
     if request.method == 'POST':
-        if request.form.get('new_cart', ''):
+        if request.form.get('new_cart'):
             Cart().to_session(session)
-        elif request.form.get('proceed', ''):
+        elif request.form.get('proceed'):
             return redirect('/order')
-        elif request.form.get('update_cart', ''):
-            c = Cart.from_session(session)
+        elif request.form.get('update_cart'):
+            c = kwargs["cart"]
             for i, item in enumerate(c.items):
                 item.custom = request.form.get(f"custom[{i}]")
             c.to_session(session)
-    return render_template("cart.html", **get_common_vars(cat="cart"))
+            return redirect("/cart")
+    kwargs["cat"] = "cart"
+    return render_template("cart.html", is_old="is_old" in request.args, **kwargs)
 
 
 @app.route('/add-to-cart/<string:product_id>', methods=['POST', 'GET'])
@@ -80,29 +115,31 @@ def add_to_cart(product_id):
 
 
 @app.route('/product/<string:product_id>', methods=['GET'])
-def product(product_id):
+@common_vars_injector()
+def product(product_id, **kwargs):
     _product = json_wrapper.get_product(product_id)
-    return render_template("single-product.html", product=_product,
-                           **get_common_vars(cat=_product.cat))
+    kwargs["cat"] = _product.cat
+    return render_template("single-product.html", product=_product, **kwargs)
 
 
 @app.route("/")
-def index():
-    return render_template("index.html", **get_common_vars(incl_products=True))
+@common_vars_injector(incl_products=True)
+def index(**kwargs):
+    return render_template("index.html", **kwargs)
 
-
-def get_common_vars(incl_products=False, cat=None):
-    if cat is None:
-        cat = request.args.get("cat")
-    result = {
-        "cart": Cart.from_session(session),
-        "cats": json_wrapper.get_categories(),
-        "cat": cat,
-        "product_code": request.args.get("product"),
-    }
-    if incl_products:
-        result["products"] = json_wrapper.get_products_by_cat(cat) if cat else json_wrapper.get_products()
-    return result
+# def get_common_vars(incl_products=False, cat=None):
+#     if cat is None:
+#         cat = request.args.get("cat")
+#     result = {
+#         "cart": Cart.from_session(session),
+#         "cats": json_wrapper.get_categories(),
+#         "cat": cat,
+#         "product_code": request.args.get("product"),
+#     }
+#     if incl_products:
+#         result["products"] = json_wrapper.get_products_by_cat(cat) if cat else json_wrapper.get_products()
+#     return result
+#
 
 
 def __create_db():

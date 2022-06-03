@@ -8,6 +8,7 @@ MAX_CACHE_TIME_SEC = 3600
 class JdbWrapper:
 
     def __init__(self):
+        print("JdbWrapper init was called!")
         self.products = None
         self.last_read_products = None
         self.categories = None
@@ -36,3 +37,6 @@ class JdbWrapper:
 
     def get_products_by_cat(self, cat: str):
         return [p for p in self.get_products() if p['cat'] == cat]
+
+
+json_wrapper = JdbWrapper()

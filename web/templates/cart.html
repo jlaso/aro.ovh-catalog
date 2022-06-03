@@ -15,7 +15,13 @@
             </div>
         </div>
     </div> <!-- End Page title area -->
-    
+
+    {% if is_old %}
+    <div style="background-color: darkred; color: antiquewhite; padding: 15px;">
+    Este carro tiene mucho tiempo, asegúrate de que quieres todo lo que hay en él o
+    bórralo y empieza de nuevo.
+    </div>
+    {% endif %}
     
     <div class="single-product-area">
         <div class="zigzag-bottom"></div>
@@ -61,7 +67,7 @@
                                                 <a title="Quitar producto" class="remove" href="#">×</a> 
                                             </td>
                                             <td class="product-thumbnail">
-                                                <a href="/">
+                                                <a href="/?product={{ p.code }}">
 													<img width="200" height="200" alt="{{ p.code }}" 
 													class="shop_thumbnail" src="/static/db/{{ p.cat }}/{{ p.code }}.jpg">
 												</a>
