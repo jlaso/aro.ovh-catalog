@@ -8,8 +8,6 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      AU_DEPLOYMENT: ${{ github.ref }}
     steps:
       - name: Checkout repository and submodules
         uses: actions/checkout@v2
@@ -22,5 +20,4 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Build & Deploy
-        run: |
-          "rsync -avz --exclude-from=.rsyncignore . ${SERVER_AND_PATH}"
+        run: rsync -avz --exclude-from=.rsyncignore . ${SERVER_AND_PATH}
