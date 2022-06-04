@@ -19,5 +19,14 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_KEY }}
+          known_hosts: 'just-a-placeholder-so-we-dont-get-errors'
+
+      - name: Adding Known Hosts
+        run: ssh-keyscan -p ${{ secrets.SERVER_PORT }} -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
       - name: Build & Deploy
         run: rsync --rsh='ssh -p${{ secrets.SERVER_PORT }}' -avz --exclude-from=.rsyncignore . ${{ secrets.SERVER_AND_PATH }}
