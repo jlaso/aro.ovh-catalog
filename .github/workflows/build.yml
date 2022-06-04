@@ -23,4 +23,4 @@ jobs:
 
       - name: Build & Deploy
         run: |
-          "rsync -avz --exclude-from="${GITHUB_WORKSPACE}/.rsyncignore" . ${SERVER_AND_PATH}"
+          "rsync -avz --exclude-from=.rsyncignore . ${SERVER_AND_PATH}"
