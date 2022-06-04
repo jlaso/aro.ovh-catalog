@@ -1,4 +1,4 @@
-name: Aro.OVH catalog
+name: catalog.muw.es
 on:
   push:
     branches:
@@ -21,7 +21,6 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-#      - name: Build & Deploy
-#
-#        run: |
-#          "rsync -avz --exclude-from="${GITHUB_WORKSPACE}/.rsyncignore" . $(server):/var/projects/aro.ovh"
+      - name: Build & Deploy
+        run: |
+          "rsync -avz --exclude-from="${GITHUB_WORKSPACE}/.rsyncignore" . $(server):/var/projects/catalog.muw.es"
