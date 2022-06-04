@@ -20,4 +20,4 @@ jobs:
       - run: pip install -r requirements.txt
 
       - name: Build & Deploy
-        run: rsync --rsh='ssh -p${SERVER_PORT}' -avz --exclude-from=.rsyncignore . "${SERVER_AND_PATH}"
+        run: rsync --rsh='ssh -p${{ secrets.SERVER_PORT }}' -avz --exclude-from=.rsyncignore . ${{ secrets.SERVER_AND_PATH }}
