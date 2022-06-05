@@ -1,6 +1,6 @@
-if [ "`id -u`" = "1000" ]
+if [ "`id -u`" = "0" ]
 then
-  sudo /usr/local/bin/docker-compose "$@"
+  /usr/bin/docker-compose "$@"
 else
   docker-compose -f docker-compose-local.yaml "$@"
 fi

@@ -15,7 +15,7 @@ def common_vars_injector(incl_products=False):
             _cart = Cart.from_session(session)
             # for avoiding infinite redirects
             if not request.path.startswith('/cart?is_old') \
-                    and _cart.how_old() > 3600:
+                    and _cart.how_old() > 3600 * 24:
                 return redirect("/cart?is_old")
             kwargs = {
                 "cat": request.args.get("cat"),

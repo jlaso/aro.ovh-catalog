@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.3"
 
 networks:
   web:
@@ -13,7 +13,7 @@ services:
     volumes:
       - ./web:/app
     ports:
-      - "8080:5000"
+      - "${FLASK_PORT}:5000"
     environment:
       - FLASK_APP=app.py
       - FLASK_ENV=development

@@ -13,7 +13,8 @@ services:
       - ./web:/app
     networks:
       - web
-    command: /usr/local/bin/gunicorn app:app -w 1 -b :5000 --reload --timeout 600
+    # command: /usr/local/bin/gunicorn app:app -w 1 -b :5000 --reload --timeout 600
+    command: flask run --host 0.0.0.0
 
   nginx:
     restart: always
